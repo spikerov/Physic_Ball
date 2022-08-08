@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class Ball : MonoBehaviour
 {
     [SerializeField] private float _tapForce = 6;
+    [SerializeField] private HandPointer _handPointer;
     [SerializeField] private Transform _startPoint;
     [SerializeField] private ChoiceBallDirection _mousePosition;
     [SerializeField] private TrajectoryRenderer _trajectoryRenderer;
@@ -14,6 +15,7 @@ public class Ball : MonoBehaviour
     
     private int _points;
     private bool _ballOnStart = true;
+    private bool _mouseButtonDown = true;
     private Rigidbody2D _rigidbody;
     private Vector3 _worldMousePosition;
 
@@ -36,14 +38,31 @@ public class Ball : MonoBehaviour
         else
             _ballOnStart = false;
 
-        if (Input.touchCount > 0)
-            _rigidbody.simulated = true;
-
         if (Input.GetMouseButtonDown(0))
-            ActiveBall();
+        {
+            _handPointer.CloseHandPointer();
+            _mouseButtonDown = true;
+        }
 
-        if (_ballOnStart == true)
+        if (_mouseButtonDown == true && _ballOnStart == true)
             BallTrajectory();
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            _mouseButtonDown = false;
+            ActiveBall();
+        }
+
+        if (Input.touchCount > 0)
+        {
+            _handPointer.CloseHandPointer();
+            Touch touch = Input.GetTouch(0);
+
+            if(touch.phase == TouchPhase.Moved)
+                BallTrajectory();
+            else if (touch.phase == TouchPhase.Ended)
+                ActiveBall();
+        }
     }
 
     public void RestartBall()

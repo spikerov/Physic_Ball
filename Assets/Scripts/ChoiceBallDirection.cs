@@ -14,12 +14,4 @@ public class ChoiceBallDirection : MonoBehaviour
     {
         _worldMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
-
-    private void OnMouseDown()
-    {
-        //    _pointDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //    Vector3 mouseinWorld = _pointDirection;
-        //    _ball.ActiveBall(_pointDirection);
-        
-    }
 }

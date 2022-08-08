@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using InstantGamesBridge;
 
 public class PanelPlay : MonoBehaviour
 {
@@ -24,9 +25,20 @@ public class PanelPlay : MonoBehaviour
 
     private void Start()
     {
-        _placeChoiceDirection.gameObject.SetActive(true);
-        _hightScoreText.text = PlayerPrefs.GetInt(_keyScore).ToString();
+        Bridge.game.GetData(_keyScore, (success, data) =>
+        {
+            if (success)
+            {
+                _hightScoreText.text = data;
+            }
+            else
+            {
+                Debug.Log("Score Data Error");
+            }
+        });
+
         Time.timeScale = 1;
+        _placeChoiceDirection.gameObject.SetActive(true);
     }
 
     private void PointView(int point)

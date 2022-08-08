@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using InstantGamesBridge;
 
 public class PanelMainMenu : MonoBehaviour
 {
@@ -13,14 +14,23 @@ public class PanelMainMenu : MonoBehaviour
     {
         Time.timeScale = 0;
 
-        if (PlayerPrefs.HasKey(_keyScore) == false)
-            PlayerPrefs.SetInt(_keyScore, 0);
-
-        _hightScoreText.text = PlayerPrefs.GetInt(_keyScore).ToString();
-    }
-
-    private void Update()
-    {
-        
-    }
+		Bridge.game.GetData(_keyScore, (success, data) =>
+		{
+			if (success)
+			{
+				if (data == null)
+				{
+					Bridge.game.SetData(_keyScore, "0");
+				}
+				else
+				{
+					_hightScoreText.text = data;
+				}
+			}
+			else
+			{
+				Debug.Log("Score Data Error");
+			}
+		});
+	}
 }

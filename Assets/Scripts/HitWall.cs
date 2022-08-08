@@ -15,6 +15,7 @@ public class HitWall : MonoBehaviour
         {
             _frameImage.DOColor(Color.red, 0.1f).SetLoops(2, LoopType.Yoyo);
             ball.PlayHitSound();
+            _frameImage.color = Color.black;
         }
     }
 }

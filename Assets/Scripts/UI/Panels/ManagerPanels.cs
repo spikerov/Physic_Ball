@@ -34,7 +34,7 @@ public class ManagerPanels : MonoBehaviour
     {
         _buttonClockSound.Play();
         DOTween.KillAll();
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
         Time.timeScale = 1;
     }
 

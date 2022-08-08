@@ -12,8 +12,8 @@ public class Shape : MonoBehaviour
     private Ball _ball;
     private ParticleScore _particleScore;
     private Rigidbody2D _rigidbody;
-    private Tween rotateSquare;
-    private Tween shakeShape;
+    private Tween _rotateSquare;
+    private Tween _shakeShape;
     private int _countLives;
     private float _destroyTime = 0.1f; 
     private float _rotationDuration = 3;
@@ -33,7 +33,7 @@ public class Shape : MonoBehaviour
         {
             if (gameObject != null)
             {
-                rotateSquare = _rigidbody.DORotate(90, _rotationDuration).SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+                _rotateSquare = _rigidbody.DORotate(90, _rotationDuration).SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
             }
         }
     }
@@ -48,7 +48,7 @@ public class Shape : MonoBehaviour
     }
     public void OnAttentionZone()
     {
-        shakeShape = transform.DOShakePosition(0.5f, new Vector3(0.01f, 0.01f, 0), 20, 50, false, false).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
+        _shakeShape = transform.DOShakePosition(0.5f, new Vector3(0.01f, 0.01f, 0), 20, 50, false, false).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
     }
 
     private void ApplyDamage()
@@ -64,8 +64,8 @@ public class Shape : MonoBehaviour
     private void Die()
     {
         _particleScore.PlayParticle(transform.position);
-        shakeShape.Kill();
-        rotateSquare.Kill();
+        _shakeShape.Kill();
+        _rotateSquare.Kill();
         _ball.AddPoint();
         Destroy(gameObject, _destroyTime);
     }
